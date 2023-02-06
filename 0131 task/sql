@@ -1,0 +1,16 @@
+#1
+SELECT count(*)
+FROM Products as a 
+join Categories as b
+on a.CategoryID = b.CategoryID
+group by a.CategoryID;
+
+#2
+SELECT D.cname 
+FROM (SELECT OrderDetails.OrderID ,OrderDetails.Quantity, Products.Price, sum(Quantity*Price) as Money, Orders.CustomerID, Customers.CustomerName as cname
+FROM OrderDetails
+LEFT JOIN Products ON OrderDetails.ProductID = Products.ProductID
+LEFT JOIN Orders ON OrderDetails.OrderID=Orders.OrderId
+LEFT JOIN Customers ON Orders.CustomerId=Customers.CustomerID
+Group by Customers.CustomerName) as D
+WHERE D.Money >= 10000;
